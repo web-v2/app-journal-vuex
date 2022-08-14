@@ -2,6 +2,7 @@
 export const myAction = async ({ commit }) => {
 
 }
+https://vue-demos-v2-default-rtdb.firebaseio.com/entries.json
 */
 
 export const loadEntries = async (/*{ commit }*/) => {
