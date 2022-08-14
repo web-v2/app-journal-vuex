@@ -10,7 +10,12 @@ export default {
         {
             path: ':id',
             name: 'entry',
-            component: () => import(/* webpackChunkName: "no-entry" */ '@/modules/daybook/views/EntryView.vue')                        
+            component: () => import(/* webpackChunkName: "no-entry" */ '@/modules/daybook/views/EntryView.vue'),
+            props: (route) =>{
+                return {
+                    id: route.params.id
+                }
+            }
         }
     ]
 }
