@@ -8,9 +8,9 @@
                 <span class="mx-2 fs-4 fw-light">{{yearDay}}</span>
             </div>
             <div>
-                <input type="file" name="carga" id="carga" class="btn btn-warning" @change="onSelectedImagen">
+                <input type="file" name="carga" @change="onSelectedImagen" ref="imageSelector" v-show="false" accept="image/png, image/jpeg">
                 <button class="btn btn-danger mx-2" v-if="entry.id" @click="onDeleteEntry">Borrar <i class="fa fa-trash-alt"></i></button>
-                <button class="btn btn-primary">Subir foto <i class="fa fa-upload"></i></button>
+                <button class="btn btn-primary" @click="onSelectImagen">Subir foto <i class="fa fa-upload"></i></button>
             </div>
         </div> 
         <hr>
@@ -135,7 +135,7 @@ export default {
             fr.readAsDataURL( file )
         },
         onSelectImagen(){
-            
+          this.$refs.imageSelector.click()
         }
     },
     created() {
