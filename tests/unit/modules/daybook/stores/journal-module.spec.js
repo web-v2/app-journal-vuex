@@ -63,7 +63,7 @@ describe('Vuex - Pruebas en el Journal Module', () => {
     });
 
     /** Getters ==================== */
-    test('Getters getEntriesByTerm && getEntryById', () => {
+    test('getters: getEntriesByTerm && getEntryById', () => {
         const store = createVuexStore(journalState)   
         expect( store.getters['journal/getEntriesByTerm']('').length ).toBe(4)
         expect( store.getters['journal/getEntriesByTerm']('claudinary').length ).toBe(1)        
@@ -71,4 +71,40 @@ describe('Vuex - Pruebas en el Journal Module', () => {
     });
 
     /** Actions ==================== */
+    test('actions: loadEntries ', async() => {
+        const store = createVuexStore({isLoading: true, entries: []})
+        await store.dispatch('journal/loadEntries')
+        expect(store.state.journal.entries.length).toBe(5)
+    });
+
+    test('actions: updateEntry', async () => {
+        const store = createVuexStore(journalState)  
+        const updateEntryData = {
+            id: '-NH7uKXKp-qWoAlduDNp',
+            fecha: 1668744254460,            
+            text: 'update data desde testing.'
+        }
+        await store.dispatch('journal/updateEntry', updateEntryData)    
+        expect( store.state.journal.entries.length ).toBe(4)
+        expect( store.state.journal.entries.find(e => e.id === updateEntryData.id) ).toEqual({
+            id: '-NH7uKXKp-qWoAlduDNp', 
+            fecha: 1668744254460,                       
+            text: 'update data desde testing.'
+        })
+    });
+
+    test('Actions: createEntry deleteEntry', async() => {
+        const store = createVuexStore(journalState)  
+        const newEntryData = {            
+            fecha: 1668744254460,            
+            text: 'Nueva data desde testing.'
+        }
+        const id = await store.dispatch('journal/createEntry', newEntryData) 
+        expect( typeof id ).toBe('string')    
+        expect( store.state.journal.entries.find(e => e.id === id) ).toBeTruthy()
+
+        await store.dispatch('journal/deleteEntry', id)
+        expect( store.state.journal.entries.find(e => e.id === id) ).toBeFalsy()
+    });
+    
 });
