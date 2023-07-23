@@ -112,20 +112,20 @@ export default {
             this.fileGeneral = null
             Swal.fire('Guardado', 'Entrada registrada con éxito!', 'success')
         },
-        async onDeleteEntry(){  
+        async onDeleteEntry(){              
             const {isConfirmed} = await Swal.fire({
                 title: '¿Está seguro?',
                 text: 'Una vez borrado, no se puede recuperar',
                 showDenyButton: true,
                 confirmButtonText: 'Si, estoy seguro!'                
-            })  
+            })              
             if(isConfirmed){
-                new Swal({
+                Swal.fire({
                     title : 'Espere por favor...',
                     AllowOutsideClick : false
                 }) 
-                Swal.showLoading()
-                await this.deleteEntry(this.entry.id);
+                Swal.showLoading()                
+                await this.deleteEntry(this.entry.id);                
                 this.$router.push({name: 'no-entry'})
                 Swal.fire('Eliminado', '', 'success')
             }     
