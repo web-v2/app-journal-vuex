@@ -1,5 +1,5 @@
 export default {
-  name: "aut",
+  name: "auth",
   component: () =>
     import(
       /* webpackChunkName: "Aut Layout" */ "@/modules/auth/layouts/AuthLayout.vue"

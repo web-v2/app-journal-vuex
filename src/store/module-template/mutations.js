@@ -1,4 +1,3 @@
+// export const myMutation = ( state ) => {
 
-export const myMutation = ( state ) => {
-
-}
+// }
