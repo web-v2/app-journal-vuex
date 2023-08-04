@@ -25,4 +25,6 @@ export const logoutUser = (state) => {
 
   localStorage.removeItem("idToken");
   localStorage.removeItem("refreshToken");
+
+  //console.log("Cookies borradas exitosamente!");
 };
