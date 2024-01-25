@@ -1,11 +1,12 @@
 import { createStore } from "vuex";
-import authModule from "@/modules/auth/store/auth";
-import journalModule from "@/modules/daybook/store/journal";
+
+import auth from "../modules/auth/store";
+import journal from "../modules/daybook/store/journal";
 
 const store = createStore({
   modules: {
-    auth: authModule,
-    journal: journalModule,
+    auth,
+    journal,
   },
 });
 

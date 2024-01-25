@@ -1,18 +1,19 @@
 import { createStore } from "vuex";
 
-import authModule from "@/modules/auth/store";
-import journalModule from "@/modules/daybook/store/journal";
+import auth from "@/modules/auth/store/auth";
+import journal from "@/modules/daybook/store/journal";
+
 import { journalState } from "./test-journal-state";
 
 const createVuexStore = (authInitState, journalInitState = journalState) =>
   createStore({
     modules: {
-      authModule: {
-        ...authModule,
+      auth: {
+        ...auth,
         state: { ...authInitState },
       },
-      journalModule: {
-        ...journalModule,
+      journal: {
+        ...journal,
         state: { ...journalInitState },
       },
     },
