@@ -1,3 +1,5 @@
+<a href="https://vuejs.org" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Vue.js_Logo_2.svg" width="300" height="300" alt="VueJs" /></a>
+
 # app-journal - Samir V2
 
 ## Comenzando 🚀
