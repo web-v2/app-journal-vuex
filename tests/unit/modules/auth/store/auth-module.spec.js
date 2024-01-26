@@ -1,3 +1,4 @@
+import axios from "axios";
 import createVuexStore from "../../../mock-data/mock-store";
 
 describe("Vuex: Pruebas en el auth-module", () => {
@@ -73,5 +74,97 @@ describe("Vuex: Pruebas en el auth-module", () => {
 
     expect(store.getters["auth/currentState"]).toBe("authenticated");
     expect(store.getters["auth/username"]).toBe("SamirV2");
+  });
+
+  //Acciones
+  test("Actions: createUser - Error usuario ya existe", async () => {
+    const store = createVuexStore({
+      status: "not-authenticated", // 'authenticated','not-authenticated', 'authenticating'
+      user: null,
+      idToken: null,
+      refreshToken: null,
+    });
+
+    const newUser = {
+      name: "User Test",
+      email: "user@test.com",
+      password: "123456",
+    };
+
+    const resp = await store.dispatch("auth/createUser", newUser);
+
+    expect(resp).toEqual({ ok: false, message: "EMAIL_EXISTS" });
+    const { status, user, idToken, refreshToken } = store.state.auth;
+
+    expect(status).toBe("not-authenticated");
+    expect(user).toBe(null);
+    expect(idToken).toBe(null);
+    expect(refreshToken).toBe(null);
+  });
+
+  test("Actions: createUser signInUser - Crea el usuario", async () => {
+    const store = createVuexStore({
+      status: "not-authenticated", // 'authenticated','not-authenticated', 'authenticating'
+      user: null,
+      idToken: null,
+      refreshToken: null,
+    });
+
+    const newUser = {
+      name: "Sara V",
+      email: "sara@gmail.com",
+      password: "123456",
+    };
+    //SignIn
+    await store.dispatch("auth/signInUser", newUser);
+    const { idToken } = store.state.auth;
+    //Delete User
+    const deleteUser = await axios.post(
+      `https://identitytoolkit.googleapis.com/v1/accounts:delete?key=AIzaSyAOxYPhEnTJr-qgnlABcswibSGUtFnTvyk`,
+      {
+        idToken,
+      }
+    );
+    //console.log({ idToken });
+    //Create User
+    const newUserCreate = {
+      name: "Sara V",
+      email: "sara@gmail.com",
+      password: "123456",
+    };
+    const resp = await store.dispatch("auth/createUser", newUserCreate);
+    //console.log({ resp });
+    expect(resp).toEqual({ ok: true });
+
+    const { status, user, idToken: token, refreshToken } = store.state.auth;
+    expect(status).toBe("authenticated");
+    expect(user).toMatchObject({ name: "Sara V", email: "sara@gmail.com" });
+    expect(typeof token).toBe("string");
+    expect(typeof refreshToken).toBe("string");
+  });
+
+  test("Actions: checkAuthentication - POSITIVA", async () => {
+    const store = createVuexStore({
+      status: "not-authenticated", // 'authenticated','not-authenticated', 'authenticating'
+      user: null,
+      idToken: null,
+      refreshToken: null,
+    });
+
+    //SignIn
+    await store.dispatch("auth/signInUser", {
+      email: "sara@gmail.com",
+      password: "123456",
+    });
+    const { idToken } = store.state.auth;
+    store.commit("auth/logoutUser");
+    localStorage.setItem("idToken", idToken);
+    const checkResp = await store.dispatch("auth/checkAuthentication");
+    const { status, user, idToken: token, refreshToken } = store.state.auth;
+
+    expect(checkResp).toEqual({ ok: true });
+    expect(status).toBe("authenticated");
+    expect(user).toMatchObject({ name: "Sara V", email: "sara@gmail.com" });
+    expect(typeof token).toBe("string");
   });
 });
