@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Pruebas en el navbar component Debe de mostrar el componente correctamente 1`] = `
+<div>
+  <nav class="navbar bg-primary"><a href="" class="navbar-brand text-white"><img src="" alt="Vue-logo" class="d-inline-block align-text-top mx-2" height="24"> SamirV2</a>
+    <div class="d-flex"><button class="btn btn-outline-info"><i class="fa fa-sign-out-alt"></i></button></div>
+  </nav>
+</div>
+`;

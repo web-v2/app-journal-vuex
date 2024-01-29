@@ -34,6 +34,7 @@
     "jest": "^27.0.5",
     "sass": "^1.54.0",
     "sass-loader": "^10.3.1",
-    "setimmediate": "^1.0.5"
+    "setimmediate": "^1.0.5",
+    "vue-router-mock": "^1.0.0"
   }
 }
